@@ -9,11 +9,20 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [count, setCount] = useState(10);
   const [lastTries, setLastTries] = useState([]);
-  
+  const [start, setStart] = useState(true);
+
+  let buffer = [];
+  buffer.push(
+    <button key="i" className="btn" onClick={() => getRandomNumber()}>
+      Start
+    </button>
+  );
+
   function getRandomNumber() {
     setAnswer("Good Luck!");
     setLastTries([]);
     setUserInput("");
+    setStart(false);
     let digit = Math.floor(Math.random() * 100);
     setRandomNum(digit);
     setCount(10);
@@ -39,11 +48,13 @@ function App() {
       setCount("");
       setUserInput("");
       setLastTries([]);
+      setStart(true);
     } else if (count == 0) {
       setAnswer("GAME OVER");
       setCount("");
       setUserInput("");
       setLastTries([]);
+      setStart(true);
     } else if (userInput === "") {
       setAnswer("No numbers submited!");
     } else if (userInput > 100) {
@@ -76,9 +87,7 @@ function App() {
         <h3>Press start to begin!</h3>
       </header>
       <div className="buttons">
-        <button className="btn" onClick={() => getRandomNumber()}>
-          Start
-        </button>
+        <div>{start && buffer}</div>
         <button className="btn" onClick={() => guessNumber()}>
           Submit
         </button>
@@ -94,9 +103,6 @@ function App() {
         setUserInput={setUserInput}
         answer={answer}
         count={count}
-        lastTries={lastTries}
-        setLastTries={setLastTries}
-        setAnswer={setAnswer}
       />
       <p className="lastNumbers">{lastTries.join(" - ")}</p>
     </div>
